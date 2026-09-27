@@ -46,15 +46,30 @@ app.get("/recipes/:id", async (req, res) => {
 });
 
 
-
+//Checkpoint 2: Added Author check to ensure user exists
 app.post("/recipes", async (req, res) => {
   const { dish, ingredients, author, cuisine, instructions } = req.body;
+
+  if (!Array.isArray(ingredients) || !Array.isArray(instructions)) {
+    return res.status(400).json({ error: "Ingredients and instructions must be comma separated" });
+  }
+
   try {
+    const authorCheck = await pool.query(
+      "SELECT * FROM users WHERE username = $1",
+      [author]
+    );
+
+    if (authorCheck.rows.length === 0) {
+      return res.status(400).json({ error: "Author not found" });
+    }
+
     const result = await pool.query(
       `INSERT INTO recipes (dish, ingredients, author, cuisine, instructions)
        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [dish, ingredients, author, cuisine, instructions]
     );
+
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error(error);
@@ -73,17 +88,27 @@ app.get("/users", async (req, res) => {
 });
 
 app.post("/users", async (req, res) => {
-  const username = req.body.username;
+  const { username, email } = req.body;
+
   try {
     const result = await pool.query(
       `INSERT INTO users (username, email)
-       VALUES ($1, $2) RETURNING *`,
+       VALUES ($1, $2)
+       ON CONFLICT (email) DO NOTHING
+       RETURNING *;`,
       [username, email]
     );
-    res.status(201).json(result.rows[0]);
+
+    if (result.rows.length === 0) {
+      // User exists already
+      return res.json({ exists: true });
+    }
+
+    // New user added
+    res.status(201).json({ exists: false, user: result.rows[0] });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Not A Person!!" });
+    res.status(500).json({ error: "Database error" });
   }
 });
 
