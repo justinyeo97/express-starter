@@ -1,1 +1,122 @@
-Express starter
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width= , initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1>NomNom Endpoints Guide</h1>
+
+  <h2>GET Endpoints</h2>
+  <h3>GET /recipes</h3>
+  <p>Retrieve all recipes as an array of objects.</p>
+  <pre>
+Method: GET
+URL: /recipes
+Response (JSON):
+[
+  {
+    "id": 1,
+    "name": "Spaghetti",
+    "ingredients": "Pasta, Tomato Sauce",
+    "author": 1,
+    "category": 2,
+    "instructions": "Boil pasta, add sauce"
+  },
+  {
+    ...
+  }
+]
+</pre>
+
+
+  <h3>GET /recipes/:id</h3>
+  <p>Retrieve a specific recipe as an object</p>
+  <pre>
+Method: GET
+URL: /recipes/:id (in this example: id = 1)
+Response (JSON):
+[
+  {
+    "id": 1,
+    "name": "Spaghetti",
+    "ingredients": "Pasta, Tomato Sauce...",
+    "author": 1,
+    "cuisine": "Japanese",
+    "instructions": "Boil pasta, add sauce..."
+  },
+]
+</pre>
+
+  <h3>GET /users</h3>
+  <p>Retrieve all users as an array of objects.</p>
+  <pre>
+Method: GET
+URL: /users
+Response (JSON):
+[
+  {
+    "id": 1,
+    "username": "mr.tungtung",
+  },
+
+  {
+    "id": 2,
+    "username": "tralalero tralala"
+  }
+]
+</pre>
+
+  <h3>GET /cuisines</h3>
+  <p>Retrieve all cuisines as an array of objects.</p>
+  <pre>
+Method: GET
+URL: /cuisines
+Response (JSON):
+[
+  {
+    "cuisine": "Italian",
+    "id": 1
+  },
+
+  {
+    "cuisine": "Mexican",
+    "id": 2
+  }
+]
+</pre>
+
+
+  <h2>POST Endpoints</h2>
+  <h3>Add a new recipe</h3>
+  <pre>
+Method: POST
+URL: /recipes
+Body (JSON):
+{
+  "name": "Spaghetti",
+  "ingredients": "Pasta, Tomato Sauce...",
+  "author": 1,
+  "cuisine": "Italian",
+  "instructions": "Boil pasta, add sauce..."
+}
+</pre>
+
+  <h3>Add a new user</h3>
+  <pre>
+Method: POST
+URL: /users
+Body (JSON):
+{
+  "id": 1,
+  "username": "mr.tungtung",
+}
+</pre>
+
+
+</body>
+
+</html>
