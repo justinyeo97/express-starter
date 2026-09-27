@@ -73,9 +73,9 @@ app.post("/users", async (req, res) => {
   const username = req.body.username;
   try {
     const result = await pool.query(
-      `INSERT INTO users (username)
-       VALUES ($1) RETURNING *`,
-      [username]
+      `INSERT INTO users (username, email)
+       VALUES ($1, $2) RETURNING *`,
+      [username, email]
     );
     res.status(201).json(result.rows[0]);
   } catch (error) {
