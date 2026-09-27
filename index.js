@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 const { Pool } = require("pg");
 require("dotenv").config();
@@ -123,7 +124,7 @@ app.get("/cuisines", async (req, res) => {
 });
 
 
-app.listen(3000, () => {
-  console.log("App is listening on port 3000");
+app.listen(PORT, () => {
+  console.log(`App is listening on port ${PORT}`);
 });
 
